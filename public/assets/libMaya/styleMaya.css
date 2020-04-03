@@ -26,8 +26,6 @@
   background-color: #c5e1a5 ;
 }
 
-
-
 .page-link {
   color: #689f38;
 }
@@ -44,11 +42,7 @@
 /* personnalisation html */
 body {
   padding-top: 70px;
-}
-
-h1 {
-  text-align: center;
-    text-shadow: 2px 2px 5px #689f38;
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
 }
 
 /* classes Maya */
@@ -59,16 +53,96 @@ h1 {
 
 .contenu {
   background-color: #f1f8e9;
-  border: 2px solid #689f38;
-  border-radius: 6px;
+  border: 1px solid #689f38;
   line-height: 40px;
-  padding: 10px;
+  box-shadow: 5px 5px 5px rgb(148, 148, 148) ;
  }
  
 .contenu-blanc {
   background-color: white;
-  border: 2px solid #689f38;
   border-radius: 6px;
   line-height: 40px;
   padding: 10px;
  }
+
+ .contenu-blanc h1 {
+  color: white;
+  background-color:  #689f38;
+  box-shadow: none;
+  text-align: left;
+  margin : 20px 0 30px 0;
+  padding : 10px;
+  width : 50%;
+  box-shadow: 5px 5px 5px rgb(148, 148, 148) ;
+ }
+
+.flexbox-table{
+  display: flex;
+  flex-flow: column nowrap;
+  width : 100%;
+  text-align: center;
+}
+
+.flexbox-table thead{
+  display : flex;
+  width: 100%;
+  flex-flow: column nowrap;
+}
+
+.flexbox-table thead tr {
+  display : flex;
+  width : 100%;
+  flex-flow: row nowrap;
+}
+
+.flexbox-table thead tr th {
+  display : flex;
+  flex-grow: 1;
+  width : 14.28%;
+  justify-content: center;
+}
+
+.flexbox-table tbody{
+  display : flex;
+  width: 100%;
+  flex-flow: column nowrap;
+}
+
+.flexbox-table tbody tr {
+  display : flex;
+  width : 100%;
+  flex-flow: row nowrap;
+}
+
+.flexbox-table tbody tr td {
+  display : flex;
+  flex-grow: 1;
+  width : 14.28%;
+  justify-content: center;
+}
+
+.flexbox-table tbody tr td select {
+  max-width : 33%;
+}
+
+.flexbox-table tbody tr td select:nth-child(4) {
+  max-width : 50%;
+}
+
+.flexbox-table tbody tr td:nth-child(1), .flexbox-table thead tr th:nth-child(1){
+  width: 5%;
+}
+
+.flexbox-table tbody tr td:nth-child(7), .flexbox-table thead tr th:nth-child(7), 
+.flexbox-table.fournisseur tbody tr td:nth-child(9), .flexbox-table.fournisseur thead tr th:nth-child(9){
+  width : 5%;
+}
+
+.flexbox-table.fournisseur tbody tr td:nth-child(7), .flexbox-table.fournisseur thead tr th:nth-child(7) {
+  width: 14.28%;
+}
+
+.flexbox-table tbody tr td .inline-button, .flexbox-table thead tr th .inline-button{
+  flex-grow : 1;
+  margin : 5px;
+}

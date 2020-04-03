@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clients{% endblock %}
+{% block body %}
+    <div class="contenu-blanc">
+        <h1>Les <span> {{  lesClients | length }}  </span>clients</h1>
+        {{ include('messages.html.twig') }} 
+        <div class="contenu">
+            <table class="table table-striped table-advance table-hover flexbox-table">
+                <thead class="flexboxhead">
+                    <tr class="bg-entete">
+                        <th scope="col">Identifiant</th>
+                        <th scope="col">Nom du client</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Téléphone</th>
+                        <th scope="col">Nom du contact</th>
+                        <th scope="col">Date d'entrée en relation</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ form_start(formCreation) }}
+                        <tr>
+                            <td>Nouveau</td>
+                            <td>{{ form_widget(formCreation.nom) }}</td>
+                            <td>{{ form_widget(formCreation.email) }}</td>
+                            <td>{{ form_widget(formCreation.tel) }}</td>
+                            <td>{{ form_widget(formCreation.nomContact) }}</td>
+                            <td>{{ form_widget(formCreation.dateEnRelation) }} </td>
+                            <td class="">
+                                <button class="btn btn-primary btn-sm inline-button" type="submit" formaction="{{ path('clientAjouter') }}" title="Enregistrer nouveeau client"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-info btn-sm inline-button" type="reset" title="Effacer la saisie"><i class="fa fa-eraser"></i></button>
+                            </td>
+                            {# Ceci va générer le champ CSRF #}
+                        </tr>
+                        {{ form_rest(formCreation) }}
+                    {{ form_end(formCreation) }}
+                {% for client in lesClients %}
+                    {% if (client.id != idClientModif) %}
+                        <tr>
+                            <td>{{ client.id }} </td>
+                            <td>{{ client.nom }} </td>
+                            <td>{{ client.email }} </td>
+                            <td>{{ client.tel }} </td>
+                            <td>{{ client.nomContact }} </td>
+                            <td>{{ client.dateEnRelation | date('d/m/Y') }} </td>
+                            <td>
+                                <form>
+                                    <button type="submit" class="btn btn-primary btn-sm inline-button" formaction="{{ path('clientDemanderModif', {'id' : client.id }) }}"  title="Modifier"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-danger btn-sm inline-button" type="submit" formaction="{{ path('clientSupprimer', {'id' : client.id }) }}" title="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');"><i class="fa fa-trash-o "></i></button>
+                                    <input type = "hidden" name="_token" value="{{ csrf_token('action-item' ~ client.id) }}">     
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        {{ form_start(formModification) }}
+                            <tr>
+                                <td>{{ client.id }}</td>
+                                <td>{{ form_widget(formModification.nom) }} </td>
+                                <td>{{ form_widget(formModification.email) }} </td>
+                                <td>{{ form_widget(formModification.tel) }} </td>
+                                <td>{{ form_widget(formModification.nomContact) }} </td>
+                                {# <td>{{ client.dateEnRelation | date('d/m/Y') }}</td> #}
+                                <td>{{ form_widget(formModification.dateEnRelation) }}</td>
+                                <td class="">
+                                    <button class="btn btn-primary btn-sm inline-button" type="submit" formaction="{{ path('clientModifier', {'id' : client.id }) }}"  title="Enregistrer"><i class="fa fa-save"></i></button>
+                                    <button class="btn btn-info btn-sm inline-button" type="reset" title="Effacer la saisie"><i class="fa fa-eraser"></i></button>
+                                    <button class="btn btn-warning btn-sm inline-button" type="submit" formaction="{{ path('clients') }}" title="Annuler"><i class="fa fa-undo"></i></button>
+                                </td>
+                            </tr>
+                            {{ form_rest(formModification) }}
+                        {{ form_end(formModification) }}
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div> 
+{% endblock %}

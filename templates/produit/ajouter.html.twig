@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <div class="container contenu-blanc">
+        <h1>{{ titre }}</h1>
+        {{ include('produit/produit.html.twig', {form: form, button: 'Enregistrer'}) }}
+    </div>
+{% endblock %}

@@ -47,7 +47,8 @@
                             <td>
                                 <form>
                                     <button type="submit" class="btn btn-primary btn-sm inline-button" formaction="{{ path('clientDemanderModif', {'id' : client.id }) }}"  title="Modifier"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-sm inline-button" type="submit" formaction="{{ path('clientSupprimer', {'id' : client.id }) }}" title="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');"><i class="fa fa-trash-o "></i></button>
+                                    <button class="btn btn-danger btn-sm inline-button" type="submit" formaction="{{ path('clientSupprimer', {'id' : client.id }) }}" title="Supprimer" 
+                                        onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');"><i class="fa fa-trash-o "></i></button>
                                     <input type = "hidden" name="_token" value="{{ csrf_token('action-item' ~ client.id) }}">     
                                 </form>
                             </td>

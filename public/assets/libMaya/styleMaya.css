@@ -56,16 +56,37 @@ body {
   border: 1px solid #689f38;
   line-height: 40px;
   box-shadow: 5px 5px 5px rgb(148, 148, 148) ;
- }
- 
+  margin : 20px 0;
+  padding : 0 10px;
+}
+
+.contenu.centrer form{
+  display : flex;
+  width : 100%;
+  flex-flow : row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+  
+.contenu.centrer form .form-item{
+  display : flex;
+  flex-flow : column;
+  align-items: center;
+  margin : 10px;
+} 
+
+.contenu.centrer form div .input-group{
+  flex-flow : row;
+} 
+
 .contenu-blanc {
   background-color: white;
   border-radius: 6px;
   line-height: 40px;
   padding: 10px;
- }
+}
 
- .contenu-blanc h1 {
+.contenu-blanc h1 {
   color: white;
   background-color:  #689f38;
   box-shadow: none;
@@ -74,7 +95,7 @@ body {
   padding : 10px;
   width : 50%;
   box-shadow: 5px 5px 5px rgb(148, 148, 148) ;
- }
+}
 
 .flexbox-table{
   display: flex;

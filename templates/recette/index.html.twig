@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="col-md-6 contenu-blanc">
-        <h1>Les <span> {{  lesRecettes | length }}  </span>catégories</h1>
+        <h1>Les <span> {{  lesRecettes | length }}  </span>recettes</h1>
         {{ include('messages.html.twig') }} 
         <div class="contenu">
             <table class="table table-striped table-advance table-hover">
@@ -20,7 +20,7 @@
                     <tr>
                         <td>{{ recette.id }}</td>
                         <td>{{ recette.nom }}</td>
-                        <td>{{ recette.nbproduits }}</td>
+                        <td>{{ recette.nbProduits }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

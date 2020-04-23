@@ -167,3 +167,7 @@ body {
   flex-grow : 1;
   margin : 5px;
 }
+
+.contenu .card .card-title {
+  color : #689f38;
+}

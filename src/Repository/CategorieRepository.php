@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Categorie|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +49,14 @@ class CategorieRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Query
+     */
+    public function findAllQuery() : Query
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.libelle', 'ASC')
+            ->getQuery();
+    }
 }

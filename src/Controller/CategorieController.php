@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
-use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Produit;
-use App\Entity\Categorie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Produit;
+use App\Entity\Categorie;
 use App\Repository\ProduitRepository;
+use App\Form\CategorieType;
 
 
 

@@ -27,6 +27,7 @@ class ProduitController extends AbstractController
         $produitRecherche = new ProduitRecherche();
         $formRecherche = $this->createForm(ProduitRechercheType::class, $produitRecherche);
         $formRecherche->handleRequest($request);
+        
         if ($formRecherche->isSubmitted() && $formRecherche->isValid()) {
             $produitRecherche = $formRecherche->getData();
             // cherche les produits correspondant aux critères, triés par libellé
@@ -51,7 +52,7 @@ class ProduitController extends AbstractController
                 );    
             }
             else{
-                $p = ProduitRecherche();
+                $p = new ProduitRecherche();
                 $lesProduits = $paginator->paginate(
                     $repository->findAllByCriteria($p), 
                     $request->query->getint('page', 1), 

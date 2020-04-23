@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Fournisseur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Entity\FournisseurRecherche;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Fournisseur|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +50,33 @@ class FournisseurRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Query
+     */
+    public function findAllByCriteria(FournisseurRecherche $fournisseurRecherche): Query
+    {
+        // le "p" est un alias utilisé dans la requête
+        $qb = $this->createQueryBuilder('f')
+            ->orderBy('f.id', 'DESC');
+
+        if ($fournisseurRecherche->getNom()) {
+            $qb->andWhere('f.nom LIKE :nom')
+                ->setParameter('nom', $fournisseurRecherche->getNom().'%');
+        }
+
+        if ($fournisseurRecherche->getEmail()) {
+            $qb->andWhere('f.email like :email')
+                ->setParameter('email', $fournisseurRecherche->getEmail());
+        }
+
+        if ($fournisseurRecherche->getDateEnRelation()) {
+            $qb->andWhere('f.dateEnRelation = :dateEnRelation')
+                ->setParameter('dateEnRelation', $fournisseurRecherche->getDateEnRelation());
+        }
+
+        $query = $qb->getQuery();
+        // return $query->execute(); // Avant la création de la pagination
+        return $query;
+    }
 }

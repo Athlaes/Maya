@@ -6,10 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface; 
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Fournisseur;
 use App\Repository\FournisseurRepository;
+use App\Entity\Fournisseur;
+use App\Entity\FournisseurRecherche;
 use App\Form\FournisseurType;
+use App\Form\FournisseurRechercheType;
+use Knp\Component\Pager\PaginatorInterface;
 
 class FournisseurController extends AbstractController
 {
@@ -17,11 +21,47 @@ class FournisseurController extends AbstractController
      * @Route("/fournisseur", name="fournisseur")
      * @Route("/fournisseur/demanderModif/{id<\d+>}", name="fournisseurDemanderModif")
      */
-    public function index( $id = null, FournisseurRepository $repository, Request $request)
+    public function index( $id = null, FournisseurRepository $repository, Request $request, SessionInterface $session, PaginatorInterface $paginator)
     { 
+        $fournisseurRecherche = new FournisseurRecherche();
+        $formRecherche = $this->createForm(FournisseurRechercheType::class, $fournisseurRecherche);
+        $formRecherche->handleRequest($request);
+
+        if ($formRecherche->isSubmitted() && $formRecherche->isValid()) {
+            $fournisseurRecherche = $formRecherche->getData();
+            // cherche les produits correspondant aux critères, triés par libellé
+            // requête construite dynamiquement alors il est plus simple d'utiliser le querybuilder
+            // $lesProduits =$repository->findAllByCriteria($produitRecherche);
+            $session->set('FournisseursCriteres', $fournisseurRecherche);
+            $lesClients= $paginator->paginate(
+                $repository->findAllByCriteria($fournisseurRecherche),
+                $request->query->getint('page',1),
+                5
+            ); 
+        } else {
+            if ($session->has('FournisseursCriteres')){
+                $fournisseurRecherche = $session->get("FournisseursCriteres");
+                // $lesProduits = $repository->findAllByCriteria($produitRecherche);
+                $formRecherche = $this->createForm(FournisseurRechercheType::class, $fournisseurRecherche);
+                $formRecherche->setData($fournisseurRecherche);
+                $lesClients= $paginator->paginate(
+                    $repository->findAllByCriteria($fournisseurRecherche),
+                    $request->query->getint('page',1),
+                    5
+                );    
+            }
+            else{
+                $f = new FournisseurRecherche();
+                $lesClients = $paginator->paginate(
+                    $repository->findAllByCriteria($f), 
+                    $request->query->getint('page', 1), 
+                    5
+                );
+            }
+        }
+
         $fournisseur = new Fournisseur();
         $formCreation = $this->createForm(FournisseurType::class, $fournisseur);
-
         $formModificationView = null;
 
         if ($id != null) {
@@ -38,6 +78,7 @@ class FournisseurController extends AbstractController
             'formCreation' => $formCreation->createView(),
             'formModification' => $formModificationView,
             'idFournisseurModif' => $id,
+            'formRecherche' => $formRecherche->createView(),
         ]);
     }
 

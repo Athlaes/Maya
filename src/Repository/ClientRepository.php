@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Entity\ClientRecherche;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Client|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +50,33 @@ class ClientRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Query
+     */
+    public function findAllByCriteria(ClientRecherche $clientRecherche): Query
+    {
+        // le "p" est un alias utilisé dans la requête
+        $qb = $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'DESC');
+
+        if ($clientRecherche->getNom()) {
+            $qb->andWhere('c.nom LIKE :nom')
+                ->setParameter('nom', $clientRecherche->getNom().'%');
+        }
+
+        if ($clientRecherche->getEmail()) {
+            $qb->andWhere('c.email like :email')
+                ->setParameter('email', $clientRecherche->getEmail());
+        }
+
+        if ($clientRecherche->getDateEnRelation()) {
+            $qb->andWhere('c.dateEnRelation = :dateEnRelation')
+                ->setParameter('dateEnRelation', $clientRecherche->getDateEnRelation());
+        }
+
+        $query = $qb->getQuery();
+        // return $query->execute(); // Avant la création de la pagination
+        return $query;
+    }
 }

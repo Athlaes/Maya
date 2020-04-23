@@ -6,6 +6,40 @@
     <div class="contenu-blanc">
         <h1>Les <span> {{  lesFournisseurs | length }}  </span>fournisseurs</h1>
         {{ include('messages.html.twig') }} 
+        
+        <div class="contenu centrer">
+            {{ form_start(formRecherche) }}
+            <div class="form-item">
+                <div class="font-weight-bold">
+                    {{ form_label(formRecherche.nom) }}
+                </div>
+                <div>
+                    {{ form_widget(formRecherche.nom) }}
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="font-weight-bold"> 
+                    {{ form_label(formRecherche.email) }}
+                </div>
+                <div>
+                    {{ form_widget(formRecherche.email) }}
+                </div>
+            </div>
+            <div class="form-item">
+                <div class="font-weight-bold">
+                    {{ form_label(formRecherche.dateEnRelation) }}
+                </div>
+                <div>
+                    {{ form_widget(formRecherche.dateEnRelation) }}
+                </div>
+            </div>
+            <div class="form-item">
+                <button class="btn btn-primary btn-sm" type="submit" formaction="{{ path('clients') }}" title="Afficher les clients"><i class="fa fa-save"></i> Afficher</button>
+                <button class="btn btn-info btn-sm" type="reset" title="Effacer la saisie"><i class="fa fa-eraser"></i> Effacer</button>
+            </div>
+            {{ form_end(formRecherche) }}
+        </div>
+
         <div class="contenu">
             <table class="table table-striped table-advance table-hover flexbox-table fournisseur">
                 <thead class="flexboxhead">

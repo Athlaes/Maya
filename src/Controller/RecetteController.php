@@ -5,79 +5,114 @@ namespace App\Controller;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Produit;
-use App\Entity\Recette;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use App\Repository\RecetteRepository;
+use App\Entity\Produit;
+use App\Entity\Recette;
+use App\Form\RecetteType;
 
 
 class RecetteController extends AbstractController
 {
     /**
      * @Route("/recettes", name="recettes")
+     * @Route("/recettes/complet/{id}", name="recetteComplet")
      */
-    public function index()
+    public function index($id = null, RecetteRepository $repository)
     {
-        // $recettes_LC = $this->getDoctrine()
-        // ->getRepository(Recette::class)
-        // ->findAll();
-        $recettesMinTwo_LC = $this->getDoctrine()
-        ->getRepository(Recette::class)
-        ->findAllRecetteMinTwo();
-        // $recettesMinTwo_LC = Array();
-        // foreach($recettes_LC as $recette){
-        //     $nbProduit_LC = 0;
-        //     $produits_LC = $recette->getProduits();
-        //     foreach($produits_LC as $produit){
-        //         $nbProduit_LC++;
-        //     }
-        //     if($nbProduit_LC > 2){
-        //         $recettesMinTwo_LC[] = [ 'recette' => $recette,
-        //                                  'nbProduits' => $nbProduits_LC
-        //         ];
-        //     }
-        // }
+        $laRecette = null;
+        if(isset($id)){
+            $laRecette = $repository->findOneBy(['id' => $id]);
+        }
+
+        $lesRecettes = $repository->findAll();
         return $this->render('recette/index.html.twig', [
-            'lesRecettes' => $recettesMinTwo_LC,
+            'lesRecettes' => $lesRecettes,
+            'laRecette' => $laRecette,
         ]);
     }
 
     /**
-     * @Route("/recette/creer", name="recette_creer")
+     * @Route("/recettes/ajouter", name="recetteAjouter")
      */
-    public function creerRecette(EntityManagerInterface $entityManager): Response
+    public function ajouterRecette(Recette $recette = null, RecetteRepository $repository, Request $request, EntityManagerInterface $entityManager) : response
     {
-        // : Response        type de retour de la méthode creerRecette
-        // pour récupérer le EntityManager
-        //     on peut ajouter l'argument à la méthode comme ici  creerRecette(EntityManagerInterface $entityManager)
-        //     ou on peut récupérer le EntityManager via $this->getDoctrine() comme ci-dessus en commentaire
-        //        $entityManager = $this->getDoctrine()->getManager();
+        
+        $form = $this->createForm(RecetteType::class, $recette);
+        $form->handleRequest($request);
 
-        // créer l'objet Recette
-        $recette = new Recette();
-        $recette->setNom('ratatouille');
-
-        // chercher l'id du produit 'aubergine' et l'ajouter à la collection de produits de la recette
-        $produit = $this->getDoctrine()
-            ->getRepository(Produit::class)
-            ->findOneBy(['libelle' => 'aubergine']);
-        $recette->addProduit($produit);
-
-        // chercher l'id du produit 'courgette' et l'ajouter à la collection de produits de la recette
-        $produit = $this->getDoctrine()
-            ->getRepository(Produit::class)
-            ->findOneBy(['libelle' => 'courgette']);
-        $recette->addProduit($produit);
-
-        // dire à Doctrine que l'objet sera (éventuellement) persisté
-        $entityManager->persist($recette);
-
-        // exécuter les requêtes (indiquées avec persist) ici il s'agit d'ordres INSERT qui seront exécutés
-        $entityManager->flush();
-
-        return new Response('Nouvelle recette enregistrée avec 2 produits, son id est : '.$recette->getId());
+        if ($form->isSubmitted() && $form->isValid()) {
+            // cas où le formulaire d'ajout a été soumis par l'utilisateur et est valide
+            $recette = $form->getData();
+            // on met à jour la base de données 
+            $entityManager->persist($recette);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'La recette ' . $recette->getNom() . ' a été ajouté.'
+            );
+            return $this->redirectToRoute('recettes');
+        } else {
+            $lesRecettes = $repository->findAll();
+            return $this->render('recette/index.html.twig', [
+                'lesRecettes' => $lesRecettes,
+                'laRecette' => null,
+                'form' => $form->createView(),
+                'formTitle' => "Création d'une recette",
+                'formSubmit' => "Ajouter",
+            ]);
+        }
     }
 
+    /**
+     * @Route("/recettes/modifier/{id}", name="recetteModifier")
+     */
+    public function modifierRecette(Recette $recette = null, EntityManagerInterface $entityManager, Request $request, RecetteRepository $repository) : Response
+    {
+        $form = $this->createForm(RecetteType::class, $recette);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // cas où le formulaire d'ajout a été soumis par l'utilisateur et est valide
+            $recette = $form->getData();
+            // on met à jour la base de données 
+            $entityManager->persist($recette);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'La recette ' . $recette->getNom() . ' a été ajouté.'
+            );
+            return $this->redirectToRoute('recettes');
+        } else {
+            $lesRecettes = $repository->findAll();
+            return $this->render('recette/index.html.twig', [
+                'lesRecettes' => $lesRecettes,
+                'laRecette' => null,
+                'form' => $form->createView(),
+                'formTitle' => "Modification d'une recette",
+                'formSubmit' => "Modifier",
+            ]);
+        }
+
+    }
+
+    /**
+     * @Route("/recettes/supprimer/{id}", name="recetteSupprimer")
+     */
+    public function supprimerRecette(Recette $recette, EntityManagerInterface $entityManager, Request $request) : Response
+    {
+        if ($this->isCsrfTokenValid('action-item'.$recette->getId(), $request->get('_token'))) {
+            $entityManager->remove($recette);
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'La recette '.$recette->getNom().' a été supprimé.'
+            );
+        }
+
+        return $this->redirectToRoute('recettes');
+    }
 
 }

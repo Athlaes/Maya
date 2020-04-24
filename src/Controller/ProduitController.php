@@ -134,9 +134,9 @@ class ProduitController extends AbstractController
                 'success',
                 'Le produit '.$produit->getLibelle().' a été supprimé.'
             );
-
-            return $this->redirectToRoute('produit');
         }
+        
+        return $this->redirectToRoute('produit');
     }
 
 

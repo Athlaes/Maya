@@ -78,10 +78,10 @@
                 <tbody>
                 {% for produit in lesProduits %}
                     <tr>
-                        <td>{{ produit.id }} </td>
-                        <td>{{ produit.libelle }} </td>
-                        <td>{{ produit.categorie.getLibelle() }} </td>
-                        <td>{{ produit.getPrix() | number_format(2, ',', ' ') }} </td>
+                        <td>{{ produit.id }}</td>
+                        <td>{{ produit.libelle }}</td>
+                        <td>{{ produit.categorie.getLibelle() }}</td>
+                        <td>{{ produit.getPrix() | number_format(2, ',', ' ') }}</td>
                         <td>
                             <form>
                                 <button type="submit" class="btn btn-primary btn-sm inline-button" formaction="{{ path('produitModifier', {'id' : produit.id })  }}"  title="Modifier"><i class="fa fa-pencil"></i></button>

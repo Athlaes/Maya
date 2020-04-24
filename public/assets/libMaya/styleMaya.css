@@ -45,6 +45,10 @@ body {
   font-family: Tahoma, Verdana, Geneva, sans-serif;
 }
 
+.container-fluid.aligne{
+  display : flex;
+  flex-flow : row nowrap;
+}
 /* classes Maya */
 
 .bg-entete {
@@ -58,6 +62,10 @@ body {
   box-shadow: 5px 5px 5px rgb(148, 148, 148) ;
   margin : 20px 0;
   padding : 0 10px;
+}
+
+.contenu .title{
+  font-weight: bold;
 }
 
 .contenu.centrer form{
@@ -84,6 +92,14 @@ body {
   border-radius: 6px;
   line-height: 40px;
   padding: 10px;
+}
+
+.contenu-blanc.moitie{
+  max-width : 50%;
+  flex-grow: 1;
+  border-right : solid 1px #689f38;
+  border-radius: 0;
+  margin : 5px;
 }
 
 .contenu-blanc h1 {

@@ -3,7 +3,7 @@
 {% block title %}Recettes{% endblock %}
 
 {% block body %}
-    <div class="col-md-6 contenu-blanc">
+    <div class="contenu-blanc moitie">
         <h1>Les <span> {{  lesRecettes | length }}  </span>recettes</h1>
         {{ include('messages.html.twig') }} 
         <div class="contenu">
@@ -12,7 +12,11 @@
                 <tr class="bg-entete">
                     <th>Identifiant</th>
                     <th>Recette</th>
-                    <th>Description</th>
+                    <th>Action</th>
+                    <th>
+                        <a href="{{ path('recetteAjouter') }}" class="btn btn-primary btn-sm">
+                        <i class="fa fa-save"></i> Ajouter nouveau produit</a>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -20,11 +24,51 @@
                     <tr>
                         <td>{{ recette.id }}</td>
                         <td>{{ recette.nom }}</td>
-                        <td>{{ recette.nbProduits }}</td>
+                        <td>
+                            <form>
+                                <button type="submit" class="btn btn-primary btn-sm inline-button" title="Modifier" formaction="{{ path('recetteModifier', {'id' : recette.id}) }}">Modifier</button>
+                                <button type="submit" class="btn btn-primary btn-sm inline-button" title="information" formaction="{{ path('recetteComplet', {'id' : recette.id}) }}">Information</button>
+                                <button type="submit" class="btn btn-danger btn-sm inline-button" title="Supprimer" formaction="{{ path('recetteSupprimer', {'id' : recette.id}) }}">Supprimer</button>
+                                <input type = "hidden" name="_token" value="{{ csrf_token('action-item' ~ recette.id) }}">     
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-        
+        </div>
+    </div>
+    <div class="contenu-blanc moitie">
+        {% if laRecette != null %}
+            <h1>{{ laRecette.nom }}</h1>
+            <div class="contenu">
+                <p><span class="title"> Id : </span>{{ laRecette.id }}</p>
+                <p><span class="title">Nom de la recette : </span>{{ laRecette.nom }}</p>
+                <p><span class="title">Liste des produits : </span>
+                    {% for produit in laRecette.produits %}
+                        {% if loop.index == laRecette.produits | length %}
+                            {{ produit.libelle }}
+                        {% else %}
+                            {{ produit.libelle }},
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        {% endif %}
+        {% if form is defined %}
+            <h1>{{ formTitle }}</h1>
+            <div class="contenu">
+                {{ form_start(form) }}
+                    <p><span class="title">{{ form_label(form.nom) }} </span>{{ form_widget(form.nom) }}</p>
+                    <p><span class="title">{{ form_label(form.produits)}} </span>{{ form_widget(form.produits) }}</p>
+                    <p class="formAction" style="display : flex; justify-content : space-evenly;">
+                        <button class="btn btn-primary btn-xs"><i class="fa fa-save"></i> {{ formSubmit }}</button>
+                        <button class="btn btn-info btn-xs" type="reset" title="Effacer la saisie"><i class="fa fa-eraser"> Annuler</i></button>
+                        <a href="{{ path('recettes')}}" class="btn btn-secondary btn-xs"><i class="fa fa-undo"></i> Retour liste</a></span></th>
+                    </p>
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

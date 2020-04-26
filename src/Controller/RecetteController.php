@@ -160,6 +160,7 @@ class RecetteController extends AbstractController
                 'form' => $form->createView(),
                 'formTitle' => "Modification d'une recette",
                 'formSubmit' => "Modifier",
+                'formRecherche' => $formRecherche->createView(),
             ]);
         }
 

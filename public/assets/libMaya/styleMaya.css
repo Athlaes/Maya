@@ -97,7 +97,6 @@ body {
 .contenu-blanc.moitie{
   max-width : 50%;
   flex-grow: 1;
-  border-right : solid 1px #689f38;
   border-radius: 0;
   margin : 5px;
 }

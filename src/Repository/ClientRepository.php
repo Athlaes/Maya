@@ -67,7 +67,7 @@ class ClientRepository extends ServiceEntityRepository
 
         if ($clientRecherche->getEmail()) {
             $qb->andWhere('c.email like :email')
-                ->setParameter('email', $clientRecherche->getEmail());
+                ->setParameter('email', '%'.$clientRecherche->getEmail().'%');
         }
 
         if ($clientRecherche->getDateEnRelation()) {

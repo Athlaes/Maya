@@ -33,7 +33,7 @@ class FournisseurController extends AbstractController
             // requête construite dynamiquement alors il est plus simple d'utiliser le querybuilder
             // $lesProduits =$repository->findAllByCriteria($produitRecherche);
             $session->set('FournisseursCriteres', $fournisseurRecherche);
-            $lesClients= $paginator->paginate(
+            $lesFournisseurs = $paginator->paginate(
                 $repository->findAllByCriteria($fournisseurRecherche),
                 $request->query->getint('page',1),
                 5
@@ -44,7 +44,7 @@ class FournisseurController extends AbstractController
                 // $lesProduits = $repository->findAllByCriteria($produitRecherche);
                 $formRecherche = $this->createForm(FournisseurRechercheType::class, $fournisseurRecherche);
                 $formRecherche->setData($fournisseurRecherche);
-                $lesClients= $paginator->paginate(
+                $lesFournisseurs = $paginator->paginate(
                     $repository->findAllByCriteria($fournisseurRecherche),
                     $request->query->getint('page',1),
                     5
@@ -52,18 +52,16 @@ class FournisseurController extends AbstractController
             }
             else{
                 $f = new FournisseurRecherche();
-                $lesClients = $paginator->paginate(
+                $lesFournisseurs = $paginator->paginate(
                     $repository->findAllByCriteria($f), 
                     $request->query->getint('page', 1), 
                     5
                 );
             }
         }
-
         $fournisseur = new Fournisseur();
         $formCreation = $this->createForm(FournisseurType::class, $fournisseur);
         $formModificationView = null;
-
         if ($id != null) {
             // sécurité supplémentaire, on vérifie le token
             if ($this->isCsrfTokenValid('action-item'.$id, $request->get('_token'))) {
@@ -71,8 +69,6 @@ class FournisseurController extends AbstractController
                 $formModificationView = $this->createForm(FournisseurType::class, $fournisseurModif)->createView();
             }
         }
-
-        $lesFournisseurs = $repository->findAll();
         return $this->render('fournisseur/index.html.twig', [
             'lesFournisseurs' => $lesFournisseurs,
             'formCreation' => $formCreation->createView(),

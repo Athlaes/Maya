@@ -62,12 +62,12 @@ class FournisseurRepository extends ServiceEntityRepository
 
         if ($fournisseurRecherche->getNom()) {
             $qb->andWhere('f.nom LIKE :nom')
-                ->setParameter('nom', $fournisseurRecherche->getNom().'%');
+                ->setParameter('nom', '%'.$fournisseurRecherche->getNom().'%');
         }
 
         if ($fournisseurRecherche->getEmail()) {
             $qb->andWhere('f.email like :email')
-                ->setParameter('email', $fournisseurRecherche->getEmail());
+                ->setParameter('email', '%'.$fournisseurRecherche->getEmail().'%');
         }
 
         if ($fournisseurRecherche->getDateEnRelation()) {

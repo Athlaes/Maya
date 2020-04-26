@@ -57,7 +57,6 @@ class ClientController extends AbstractController
                     $request->query->getint('page', 1), 
                     5
                 );
-                // $lesClients = $repository->findAllOrderByLibelle();
             }
         }
 

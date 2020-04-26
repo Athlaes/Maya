@@ -4,10 +4,13 @@ namespace App\Repository;
 
 use App\Entity\Recette;
 use App\Entity\Produit;
+use App\Entity\RecetteRecherche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Query;
+use Doctrine\ORN\QueryBuilder;
 
 
 
@@ -106,6 +109,23 @@ class RecetteRepository extends ServiceEntityRepository
         // $stmt->execute();
 
         // return $stmt->fetchAll();
+
+    }
+
+
+    /**
+     * @return Query 
+     */
+    public function findAllByCriteria(RecetteRecherche $recetteRecherche) : Query
+    {
+        $qb =$this->createQueryBuilder('r')
+            ->orderBy('r.nom', 'ASC')
+        ;
+        if($recetteRecherche->getNom()){
+            $qb->andWhere('r.nom like :nom')
+                ->setParameter('nom', '%'.$recetteRecherche->getNom().'%');
+        }
+        return $qb->getQuery();
 
     }
 }

@@ -5,14 +5,28 @@
 {% block body %}
 <div class="contenu-blanc">
     <h1>Toutes les catégories</h1>
-    <div class="contenu centrer">
-        <div class="card-group">
-            {% for categorie in lesCategories %}
-                {{ include('Acceuil/card.html.twig', {categorie : categorie}) }}
-            {% endfor %}    
+    <div class="contenu-acceuil">
+        <div class="contenu centrer tiers">
+            <div class="card-group">
+                {% for categorie in lesCategories %}
+                    {{ include('Acceuil/card.html.twig', {categorie : categorie}) }}
+                {% endfor %}    
+            </div>
+            <div class="navigation">
+                {{ knp_pagination_render(lesCategories) }}
+            </div>
         </div>
-        <div class="navigation">
-            {{ knp_pagination_render(lesCategories) }}
+        <div class="conteneur">
+            <h2>Le temps à {{ donnees.name }}</h2>
+            <div>Le {{ dateJour }}</div>
+            <div class="temps-previsions">{{ description }}</div>
+            <div class="temps-previsions">  
+                <img src="http://openweathermap.org/img/w/{{ icon }}.png" class="temps-icone" />
+                {{ tempsMax }}&deg;C
+                <span class="temperature">{{ tempsMin }}&deg;C</span>
+            </div>
+            <div>Humidité : {{ humidite }} %</div>
+            <div>Vent : {{ windSpeed }} km/h</div>
         </div>
     </div>
 </div>

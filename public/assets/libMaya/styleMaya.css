@@ -94,6 +94,11 @@ body {
   padding: 10px;
 }
 
+.contenu.tiers{
+  max-width : 75%;
+  margin-right: 80px;
+}
+
 .contenu-blanc.moitie{
   max-width : 50%;
   flex-grow: 1;
@@ -185,4 +190,44 @@ body {
 
 .contenu .card .card-title {
   color : white;
+}
+
+/*
+* Style pour l'affichage de la météo 
+*
+*/
+
+.conteneur {
+  background-color: #f1f8e9;
+  border: 1px solid #689f38;
+  line-height: 25px;
+  font-family: Tahoma;
+  color: #859288;
+  padding: 20px;
+  max-width: 25%;
+  box-shadow: 5px 5px 10px #689f38;
+}
+
+h2 {
+  text-align: center;
+  text-shadow: 2px 2px 5px #689f38;
+}
+
+.temps-icone {
+  vertical-align: middle;
+  margin-right: 20px;
+}
+
+.temps-previsions {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+span.temperature {
+  margin-left: 15px;
+}
+
+.contenu-acceuil{
+  display: flex;
+  flex-flow : row nowrap;
 }

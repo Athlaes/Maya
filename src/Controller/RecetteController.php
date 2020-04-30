@@ -84,7 +84,7 @@ class RecetteController extends AbstractController
             ); 
         } else {
             $r = new RecetteRecherche();
-            $formRecherche =$this->createForm(RecetteRechercheType::class, $recetteRecherche);
+            $formRecherche =$this->createForm(RecetteRechercheType::class, $r);
             $lesRecettes = $paginator->paginate(
                 $repository->findAllByCriteria($r),
                 $request->query->getint('page',1),

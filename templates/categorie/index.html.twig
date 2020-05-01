@@ -39,6 +39,8 @@
                             <td><form>
                                     <button type="submit" class="btn btn-primary btn-sm" formaction="{{ path('categorie_demandermodification', {'id' : categorie.id }) }}"  title="Modifier"><i class="fa fa-pencil"></i> Modifier</button>
                                     <button class="btn btn-danger btn-sm" type="submit" formaction="{{ path('categorie_supprimer', {'id' : categorie.id }) }}" title="Supprimer" onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');"><i class="fa fa-trash-o "></i> Supprimer</button>
+                                    <input type = "hidden" name="_token" value="{{ csrf_token('action-item' ~ categorie.id) }}">     
+
                                 </form>
                             </td>
                         {% else %}

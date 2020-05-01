@@ -4,17 +4,6 @@
 * https://mdbootstrap.com/docs/jquery/css/colors/
 */
 
-/* Navbar */
-
-.navbar {
-  color : #ffa31a;
-  background-color: #1b1b1b;
-}
-
-.navbar a {
-  color : #ffa31a;
-}
-
 /* personnalisation classes bootstrap */
 
 .bg-success {
@@ -31,34 +20,22 @@
   border-color: #1b5e20;
 }
 
-.table {
-  color : white;
-}
-
 .table-hover tbody tr:hover {
   /*color: #2e7d32; */
   font-weight: bolder;
-  background-color: #ffa31a ;
+  background-color: #c5e1a5 ;
 }
 
 .page-link {
-  color: #ffa31a;
-  background-color: #1b1b1b;
-}
-
-.page-item {
-  background-color: #1b1b1b;
-  color : #ffa31a;
+  color: #689f38;
 }
 
 .page-item.active .page-link {
-  background-color: #ffa31a;
-  color : white;
+  background-color: #689f38;
 }
 
 .page-item.disabled .page-link {
-  color: #ffa31a;
-  background-color: #1b1b1b;
+  color: #689f38;
 }
 
 
@@ -66,7 +43,6 @@
 body {
   padding-top: 70px;
   font-family: Tahoma, Verdana, Geneva, sans-serif;
-  background-color: #000;
 }
 
 .container-fluid.aligne{
@@ -76,16 +52,14 @@ body {
 /* classes Maya */
 
 .bg-entete {
-  background-color: #ffa31a;
-  color : #000;
+  background-color: #dcedc8;
 }
 
 .contenu {
-  color : white;
-  background-color: #1b1b1b;
-  border: 1px solid #ffa31a;
+  background-color: #f1f8e9;
+  border: 1px solid #689f38;
   line-height: 40px;
-  box-shadow: 5px 5px 5px #503917 ;
+  box-shadow: 5px 5px 5px rgb(148, 148, 148) ;
   margin : 20px 0;
   padding : 0 10px;
 }
@@ -114,7 +88,7 @@ body {
 } 
 
 .contenu-blanc {
-  background-color: #000;
+  background-color: white;
   border-radius: 6px;
   line-height: 40px;
   padding: 10px;
@@ -134,13 +108,13 @@ body {
 
 .contenu-blanc h1 {
   color: white;
-  background-color:  #ffa31a;
+  background-color:  #689f38;
   box-shadow: none;
   text-align: left;
   margin : 20px 0 30px 0;
   padding : 10px;
   width : 50%;
-  box-shadow: 5px 5px 5px #503917 ;
+  box-shadow: 5px 5px 5px rgb(148, 148, 148) ;
 }
 
 .flexbox-table{
@@ -148,7 +122,6 @@ body {
   flex-flow: column nowrap;
   width : 100%;
   text-align: center;
-  color : white;
 }
 
 .flexbox-table thead{
@@ -225,18 +198,19 @@ body {
 */
 
 .conteneur {
-  background-color: #1b1b1b;
-  border: 1px solid #ffa31a;
+  background-color: #f1f8e9;
+  border: 1px solid #689f38;
   line-height: 25px;
   font-family: Tahoma;
-  color: #ffa31a;
+  color: #859288;
   padding: 20px;
   max-width: 25%;
-  box-shadow: 5px 5px 10px #503917;
+  box-shadow: 5px 5px 10px #689f38;
 }
 
 h2 {
   text-align: center;
+  text-shadow: 2px 2px 5px #689f38;
 }
 
 .temps-icone {
@@ -256,10 +230,4 @@ span.temperature {
 .contenu-acceuil{
   display: flex;
   flex-flow : row nowrap;
-}
-
-/* Card  */
-.card {
-  background-color: #ffa31a;
-  color : #000;
 }

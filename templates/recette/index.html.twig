@@ -43,11 +43,11 @@
                         <td>
                             <form>
                                 <button type="submit" class="btn btn-primary btn-sm inline-button" title="Modifier" 
-                                formaction="{{ path('recetteModifier', {'id' : recette.id}) }}">Modifier</button>
+                                    formaction="{{ path('recetteModifier', {'id' : recette.id}) }}">Modifier</button>
                                 <button type="submit" class="btn btn-info btn-sm inline-button" title="information" 
-                                formaction="{{ path('recetteComplet', {'id' : recette.id}) }}">Information</button>
+                                    formaction="{{ path('recetteComplet', {'id' : recette.id}) }}">Information</button>
                                 <button type="submit" class="btn btn-danger btn-sm inline-button" title="Supprimer" 
-                                formaction="{{ path('recetteSupprimer', {'id' : recette.id}) }}">Supprimer</button>
+                                    formaction="{{ path('recetteSupprimer', {'id' : recette.id}) }}">Supprimer</button>
                                 <input type = "hidden" name="_token" value="{{ csrf_token('action-item' ~ recette.id) }}">     
                             </form>
                         </td>

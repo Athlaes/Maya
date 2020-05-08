@@ -5,12 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Produit;
+use App\Entity\Recette;
 use App\Entity\ProduitRecherche;   
 use App\Form\ProduitRechercheType; 
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\ProduitRepository;
+use App\Repository\RecetteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface; 
 use Knp\Component\Pager\PaginatorInterface;
@@ -139,6 +141,21 @@ class ProduitController extends AbstractController
         return $this->redirectToRoute('produit');
     }
 
+    /**
+     * @Route("/produit/ajaxrecettesproduit", name="ajax_recettes_produit")
+     */
+    public function ajaxRecettesProduit(Request $request, RecetteRepository $repository)
+    {
+        // récupérer la valeur de idProduit envoyée
+        $idProduit = $request->request->get('idProduit');
+        // chercher les recettes correspondantes
+        $lesRecettes= $repository->findNameByProduit($idProduit);
+        // retourner une réponse encodée en JSON
+        $response = new Response(json_encode($lesRecettes));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
 
 
 }

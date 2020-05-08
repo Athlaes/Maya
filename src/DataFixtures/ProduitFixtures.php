@@ -7,6 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Categorie;
 use App\Entity\Produit;
+use App\Entity\Recette;
 
 class ProduitFixture extends Fixture
 {

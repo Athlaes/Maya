@@ -27,4 +27,5 @@ class RecetteRechercheType extends AbstractType
             'data_class' => RecetteRecherche::class,
         ]);
     }
+
 }
